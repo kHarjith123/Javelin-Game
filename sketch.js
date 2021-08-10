@@ -54,12 +54,15 @@ function setup() {
 
 function draw() {
   background(255);
+  drawSprites();
+
 
   Engine.update(engine);
 
 
 
   player.changeAnimation("released",player_released)
+  player.scale =2;
 
   if((mousePressedOver(start) || touches.length > 0) && gameState === "start"){
 
@@ -94,9 +97,11 @@ if(keyDown("space") || touches.length > 0){
 
   if(gameState === "play"){
 
-    gameState = " released";
-    Matter.Body.applyForce(javelin.body,javelin.body.position, {x: random (300, width) , y:-(random(100, height - 400)) });
+   
+    Matter.Body.applyForce(javelin.body,javelin.body.position, {x: random (width/2, width) , y:-(random(height/2, height - 400)) });
     Matter.Body.setStatic(javelin.body, false);
+
+    gameState = " released";
   }
 
 
@@ -110,69 +115,81 @@ if(gameState === " released"){
   player.scale = 0.4;
   background1.velocityX = 0; 
 
-  if(javelin.body.position.y > height/4 || javelin.body.position.x > width){
+  if(javelin.body.position.x > width && javelin.body.speed <0.5){
     text("Foul",width/2,height/2);
     sadSound.play();
     player.changeAnimation("sad",playersad)
     score = 0;
     console.log(score);
+    
+      
+   
+      
+    
+     
+    
     }
     else{
     
     
     
     
-                if (javelin.body.position.x < width-700) 
+                if (javelin.body.position.x < width/4 && javelin.body.speed <0.5) 
                   {
-                      score=score+0;  
+                      score=0;  
                       console.log(score);
-                      sadSound.play
+                      sadSound.play();
                       player.changeAnimation("sad",playersad)
-  
-  
-                  }
+                      
+                          
+                      
+                      
     
-        
+                }
     
     
-                  else if (javelin.body.position.x > width-700 && javelin.body.position.x < width-600 ) 
+                  else if (javelin.body.position.x > width/4 && javelin.body.position.x < width/2 && javelin.body.speed <0.5 ) 
                   {
-                        score = score + 50;
+                        score = 50;
                         console.log(score);
                       cheering.play();
                       player.changeAnimation("happy",playerHappy)
+
+                          
+                     
+                      
                   }
-    else if (javelin.body.position.x > width-600 && javelin.body.position.x < width-400 ) 
+    else if (javelin.body.position.x > width/2 && javelin.body.position.x < (3*width)/4 && javelin.body.speed <0.5 ) 
                   {
-                        score = score +100;
+                        score = 100;
                         console.log(score);
                          cheering.play();
                          player.changeAnimation("happy",playerHappy)
-                  }
-    else if (javelin.body.position.x > width-400 && javelin.body.position.x < width-200 ) 
+                         
+                         
+                         
+                }
+    else if (javelin.body.position.x >(3* width)/4  && javelin.body.speed < 0.5) 
                   {
-                        score = score +100;
+                        score = 200;
                         console.log(score);
                          cheering.play();
                          player.changeAnimation("happy",playerHappy)
+                            
+                        
+                         
                   }
   
-    else if (javelin.body.position.x > width-200 ) 
-                  {
-                        score = score +200;
-                        console.log(score);
-                         cheering.play();
-                         player.changeAnimation("happy",playerHappy)
-                  }
+   
     
-    
+                
     }
+ 
 }
 
 
 
-  drawSprites();
-
+ 
   console.log(score);
   
   fill("black");
